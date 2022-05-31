@@ -1,9 +1,12 @@
-var Router = require('express').Router;
-var multer = require('multer');
+const path = require('path');
+const Router = require('express').Router;
+const multer = require('multer');
 
+const photoPath = path.resolve(__dirname, '../../client/photo-viewer.html');
 const storage = multer.diskStorage({
   destination:'api/uploads/',
   filename: filename});
+
 const router = Router();
 const upload = multer({
   fileFilter: fileFilter,
@@ -21,6 +24,10 @@ router.post('/upload', upload.single('photo'), (request, response)=>{
       success: true
     })
   }
+})
+
+router.get('/photo-viewer', (request, response)=>{
+  response.sendFile(photoPath);
 })
 
 module.exports = router;
